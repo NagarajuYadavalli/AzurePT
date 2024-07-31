@@ -1,64 +1,50 @@
 name: Load Test
+
 on:
   workflow_dispatch:
     inputs:
-     threadgroup:
-       description: 'no of users'
-       required: true
-       default: 0
-       type: number
-     rampup:
-        description: 'user rampup'
+      threadgroup:
+        description: 'Number of users'
         required: true
-        type: number
         default: 0
-      
-run-name: ${{ github.run_number }} - Load Testing with {{ github.event.inputs.threadgroup }} with ramp up of {{ github.event.inputs.rampup }} seconds
-
+        type: number
+      rampup:
+        description: 'User rampup'
+        required: true
+        default: 0
+        type: number
 
 jobs:
   pttest:
-    name:  ${{ github.run_number }} - Load Testing with {{ github.event.inputs.threadgroup }} with ramp up of {{ github.event.inputs.rampup }} seconds
+    name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
     runs-on: [self-hosted, linux, java]
 
-env:
-     LOAD_TEST_RESOURCE:  ${{ github.event.inputs.threadgroup }}
-     steps:
-       - name: checkout GitHub Actions
-         uses: actions/checkout@v3
+    env:
+      LOAD_TEST_RESOURCE: ${{ github.event.inputs.threadgroup }}
 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-       - name: Set up Python
-         uses: actions/setup-python@v2
-         with:
-           python-version: 3.12.3
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.12.3
 
+      - name: Install dependencies
+        run: pip install --upgrade pip matplotlib pandas openpyxl
 
-       - name: Install dependencies
-         run: pip install --upgrade pip matplotlib pandas openpyxl
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-       - name: Login to Azure
-         uses: azure/login@v1
-         continue-on-error: false
-         with:
-         client-id: ${{ secrets.AZURE_CLIENT_ID }}
-         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-       - name: 'Azure Load Testing'
-         uses: azure/load-testing@v1
-         with:
-         loadTestResource: ${{ env.LOAD_TEST_RESOURCE }}
-         continue-on-error: true
-
-         run-name: ${{ github.run_number }} - Load Testing with {{ github.event.inputs.threadgroup }} with ramp up of {{ github.event.inputs.rampup }} seconds
-         env: |
-          [
-          {
-          "name": "THREADGROUP",
-          "value": ${{ github.event.inputs.threadgroup }}
-          },
-          {
-           "name": "RAMPUP",
-           "value": ${{ github.event.inputs.rampup }}
-           }
-          ]  
+      - name: Azure Load Testing
+        uses: azure/load-testing@v1
+        with:
+          loadTestConfigfile: './Configuration/Loadtest.yml'
+          loadTestResource: ${{ env.LOAD_TEST_RESOURCE }}
+        env:
+          THREADGROUP: ${{ github.event.inputs.threadgroup }}
+          RAMPUP: ${{ github.event.inputs.rampup }}
