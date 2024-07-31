@@ -19,9 +19,6 @@ jobs:
     name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
     runs-on: [self-hosted, linux, java]
 
-    env:
-      LOAD_TEST_RESOURCE: ${{ github.event.inputs.threadgroup }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -40,29 +37,11 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-       - name: Login to Azure
-         uses: azure/login@v1
-         continue-on-error: false
-         with:
-         client-id: ${{ secrets.AZURE_CLIENT_ID }}
-         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-       - name: 'Azure Load Testing'
-         uses: azure/load-testing@v1
-         with:
-         loadTestConfigfile: './Configuration\Loadtest.yml'
-         loadTestResource: ${{ env.LOAD_TEST_RESOURCE }}
-         continue-on-error: true
-
-         run-name: ${{ github.run_number }} - Load Testing with {{ github.event.inputs.threadgroup }} with ramp up of {{ github.event.inputs.rampup }} seconds
-         env: |
-          [
-          {
-          "name": "THREADGROUP",
-          "value": ${{ github.event.inputs.threadgroup }}
-          },
-          {
-           "name": "RAMPUP",
-           "value": ${{ github.event.inputs.rampup }}
-           }
-          ]  
+      - name: Azure Load Testing
+        uses: azure/load-testing@v1
+        with:
+          loadTestConfigfile: './Configuration/Loadtest.yml'
+          loadTestResource: ${{ github.event.inputs.threadgroup }}
+        env:
+          THREADGROUP: ${{ github.event.inputs.threadgroup }}
+          RAMPUP: ${{ github.event.inputs.rampup }}
