@@ -47,6 +47,7 @@ env:
        - name: 'Azure Load Testing'
          uses: azure/load-testing@v1
          with:
+         loadTestConfigfile: './Configuration\Loadtest.yml'
          loadTestResource: ${{ env.LOAD_TEST_RESOURCE }}
          continue-on-error: true
 
