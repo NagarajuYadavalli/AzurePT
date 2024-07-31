@@ -22,7 +22,7 @@ jobs:
       LOAD_TEST_RESOURCE: ${{ github.event.inputs.threadgroup }}
 
     steps:
-      - name: Checkout code
+      - name: checkout GitHub Actions
         uses: actions/checkout@v3
 
       - name: Set up Python
