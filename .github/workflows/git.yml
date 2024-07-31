@@ -7,12 +7,11 @@ on:
        required: true
        default: 0
        type: number
-        
-    rampup:
-      description: 'user rampup'
-      required: true
-      type: number
-	    default: 0
+     rampup:
+        description: 'user rampup'
+        required: true
+        type: number
+        default: 0
       
 run-name: ${{ github.run_number }} - Load Testing with {{ github.event.inputs.threadgroup }} with ramp up of {{ github.event.inputs.rampup }} seconds
 
@@ -23,8 +22,8 @@ jobs:
     runs-on: [self-hosted, linux, java]
 
 env:
-   LOAD_TEST_RESOURCE: ${{ github.event.inputs.threadgroup }}
-   steps:
+    LOAD_TEST_RESOURCE:  ${{ github.event.inputs.threadgroup }}
+     steps:
      - name: checkout GitHub Actions
        uses: actions/checkout@v3
 
