@@ -34,8 +34,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+         creds: ${{ secrets.AZURE_CREDENTIALS }}
+         resourceGroup: 'Performance-Testing'
 
       - name: Azure Load Testing
         uses: azure/load-testing@v1
