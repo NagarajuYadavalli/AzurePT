@@ -40,16 +40,6 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-<<<<<<< HEAD
-      - name: Azure Load Testing
-        uses: azure/load-testing@v1
-        with:
-          loadTestConfigfile: './Configuration/Loadtest.yml'
-          loadTestResource: ${{ env.LOAD_TEST_RESOURCE }}
-        env:
-          THREADGROUP: ${{ github.event.inputs.threadgroup }}
-          RAMPUP: ${{ github.event.inputs.rampup }}
-=======
        - name: Login to Azure
          uses: azure/login@v1
          continue-on-error: false
@@ -76,4 +66,3 @@ jobs:
            "value": ${{ github.event.inputs.rampup }}
            }
           ]  
->>>>>>> 75ee384ff81944820b40047911bf8f0267960b4b
