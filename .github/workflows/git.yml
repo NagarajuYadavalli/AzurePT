@@ -17,8 +17,7 @@ on:
 jobs:
   pttest:
     name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
-    runs-on: [self-hosted, ubuntu-latest, linux, java]
-
+    runs-on: self-hosted
     env:
       LOAD_TEST_RESOURCE: ${{ github.event.inputs.threadgroup }}
 
