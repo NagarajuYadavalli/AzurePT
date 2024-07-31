@@ -40,6 +40,7 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+<<<<<<< HEAD
       - name: Azure Load Testing
         uses: azure/load-testing@v1
         with:
@@ -48,3 +49,31 @@ jobs:
         env:
           THREADGROUP: ${{ github.event.inputs.threadgroup }}
           RAMPUP: ${{ github.event.inputs.rampup }}
+=======
+       - name: Login to Azure
+         uses: azure/login@v1
+         continue-on-error: false
+         with:
+         client-id: ${{ secrets.AZURE_CLIENT_ID }}
+         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+       - name: 'Azure Load Testing'
+         uses: azure/load-testing@v1
+         with:
+         loadTestConfigfile: './Configuration\Loadtest.yml'
+         loadTestResource: ${{ env.LOAD_TEST_RESOURCE }}
+         continue-on-error: true
+
+         run-name: ${{ github.run_number }} - Load Testing with {{ github.event.inputs.threadgroup }} with ramp up of {{ github.event.inputs.rampup }} seconds
+         env: |
+          [
+          {
+          "name": "THREADGROUP",
+          "value": ${{ github.event.inputs.threadgroup }}
+          },
+          {
+           "name": "RAMPUP",
+           "value": ${{ github.event.inputs.rampup }}
+           }
+          ]  
+>>>>>>> 75ee384ff81944820b40047911bf8f0267960b4b
