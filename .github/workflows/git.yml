@@ -57,9 +57,8 @@ env:
           "name": "THREADGROUP",
           "value": ${{ github.event.inputs.threadgroup }}
           },
-
           {
-         "name": "RAMPUP",
-         "value": ${{ github.event.inputs.rampup }}
+           "name": "RAMPUP",
+           "value": ${{ github.event.inputs.rampup }}
            }
           ]  
