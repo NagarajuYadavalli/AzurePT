@@ -17,12 +17,10 @@ on:
 jobs:
   pttest:
     name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
-    runs-on: self-hosted
-    env:
-      LOAD_TEST_RESOURCE: ${{ github.event.inputs.threadgroup }}
+    runs-on: [self-hosted, linux, java]
 
     steps:
-      - name: checkout GitHub Actions
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -36,15 +34,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          resourceGroup: 'Performance-Testing'
+         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+         creds: ${{ secrets.AZURE_CREDENTIALS }}
+         resourceGroup: 'Performance-Testing'
 
       - name: Azure Load Testing
         uses: azure/load-testing@v1
         with:
           loadTestConfigfile: './Configuration/Loadtest.yml'
-          loadTestResource: ${{ env.LOAD_TEST_RESOURCE }}
+          loadTestResource: ${{ github.event.inputs.threadgroup }}
         env:
           THREADGROUP: ${{ github.event.inputs.threadgroup }}
           RAMPUP: ${{ github.event.inputs.rampup }}
