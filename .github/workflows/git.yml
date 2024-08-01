@@ -1,5 +1,4 @@
 name: Load Test
-
 on:
   workflow_dispatch:
     inputs:
@@ -15,11 +14,13 @@ on:
         type: number
 
 jobs:
-  pttest:
-    name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
-    runs-on: [self-hosted, linux, java , windows-latest , ubuntu-latest]
+loadtest:
+  name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
+  runs-on: [self-hosted, linux, java , windows-latest , ubuntu-latest]
+env :
+THREADGROUP: ${{github.event.inputs.threadgroup}}
 
-    steps:
+steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -46,7 +47,7 @@ jobs:
           resourceGroup: 'Performance-Testing'
           continue-on-error: true
           run-name: ${{ github.run_number }} - Load Testing with {{ github.event.inputs.threadgroup }} with ramp up of {{ github.event.inputs.rampup }} seconds
-         env: |
+      env: |
            [
           {
           "name": "THREADGROUP",
