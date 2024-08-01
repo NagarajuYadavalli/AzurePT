@@ -36,6 +36,13 @@ jobs:
         with:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      - name: Use Secrets
+        run: |
+          echo "User Principal Name: ${{ secrets.AZURE_USER_PRINCIPAL_NAME }}"
+          echo "Resource Group: ${{ secrets.AZURE_RESOURCE_GROUP }}"
+        env:
+          AZURE_PASSWORD: ${{ secrets.AZURE_PASSWORD }}
 
       - name: 'Azure Load Testing'
         uses: azure/load-testing@v1
