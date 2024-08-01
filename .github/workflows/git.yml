@@ -38,13 +38,6 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           auth-type: 'IDENTITY'
           
-      - name: Use Secrets
-        run: |
-          echo "User Principal Name: ${{ secrets.AZURE_USER_PRINCIPAL_NAME }}"
-          echo "Resource Group: ${{ secrets.AZURE_RESOURCE_GROUP }}"
-        env:
-          AZURE_PASSWORD: ${{ secrets.AZURE_PASSWORD }}
-
       - name: 'Azure Load Testing'
         uses: azure/load-testing@v1
         with:
