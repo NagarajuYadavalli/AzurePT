@@ -51,15 +51,27 @@ jobs:
           resourceGroup: 'Performance-Testing'
           continue-on-error: true
           run-name: ${{ github.run_number }} - Load Testing with {{ github.event.inputs.threadgroup }} with ramp up of {{ github.event.inputs.rampup }} seconds
-      
-env: 
-      [
-          {
-          "name": "THREADGROUP",
+
+# env: |
+#       [
+#           {
+#           "name": "<Name of the variable>",
+#           "value": "<Value of the variable>"
+#           },
+#           {
+#           "name": "<Name of the variable>",
+#           "value": "<Value of the variable>"
+#           }
+#       ]
+
+          env: |
+            [
+             {
+             "name": "THREADGROUP",
           "value": ${{ github.event.inputs.threadgroup }}
-          },
-          {
+             },
+            {
           "name": "RAMPUP",
           "value": ${{ github.event.inputs.rampup }}
           }
-      ]
+        ]
