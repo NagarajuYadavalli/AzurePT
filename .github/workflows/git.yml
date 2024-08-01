@@ -36,14 +36,8 @@ jobs:
         with:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-          auth-type: 'IDENTITY'
-          
-      - name: Install Azure CLI
-        run: |
-          iex "& { $(irm https://aka.ms/installazurecliwindows -UseBasicP) }"
-        
-      - name: Verify Azure CLI Installation
-        run: az --version
+         
+  
 
       - name: 'Azure Load Testing'
         uses: azure/load-testing@v1
