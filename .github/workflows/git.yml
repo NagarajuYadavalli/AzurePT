@@ -39,7 +39,11 @@ jobs:
           auth-type: 'IDENTITY'
           
       - name: Install Azure CLI
-        uses: azure/setup-azure-cli@v1
+        run: |
+          iex "& { $(irm https://aka.ms/installazurecliwindows -UseBasicP) }"
+        
+      - name: Verify Azure CLI Installation
+        run: az --version
 
       - name: 'Azure Load Testing'
         uses: azure/load-testing@v1
