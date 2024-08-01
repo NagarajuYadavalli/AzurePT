@@ -17,7 +17,7 @@ on:
 jobs:
   pttest:
     name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
-    runs-on: [self-hosted, linux, java]
+    runs-on: [self-hosted, linux, java , windows-latest , ubuntu-latest]
 
     steps:
       - name: Checkout code
