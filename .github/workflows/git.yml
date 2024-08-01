@@ -52,7 +52,7 @@ jobs:
           continue-on-error: true
           run-name: ${{ github.run_number }} - Load Testing with {{ github.event.inputs.threadgroup }} with ramp up of {{ github.event.inputs.rampup }} seconds
       
-env: |
+env: 
       [
           {
           "name": "THREADGROUP",
