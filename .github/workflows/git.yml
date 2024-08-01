@@ -19,7 +19,7 @@ jobs:
 
  loadtest:
    name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
-   runs-on: [self-hosted, Linux, java]
+   runs-on: ubuntu-latest
 #env :
  #THREADGROUP: ${{github.event.inputs.threadgroup}}
 
