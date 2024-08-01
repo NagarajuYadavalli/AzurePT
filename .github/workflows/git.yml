@@ -1,5 +1,6 @@
 name: Load Test
-on:
+
+on: 
   workflow_dispatch:
     inputs:
       threadgroup:
@@ -14,47 +15,49 @@ on:
         type: number
 
 jobs:
-loadtest:
+ loadtest:
   name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
   runs-on: [self-hosted, linux, java , windows-latest , ubuntu-latest]
-env :
-THREADGROUP: ${{github.event.inputs.threadgroup}}
+#env :
+ #THREADGROUP: ${{github.event.inputs.threadgroup}}
 
-steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+ steps:
+   - name: Checkout code
+     uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
+   - name: Set up Python
+     uses: actions/setup-python@v2
+     with:
           python-version: 3.12.3
 
-      - name: Install dependencies
-        run: pip install --upgrade pip matplotlib pandas openpyxl
+   - name: Install dependencies
+     run: pip install --upgrade pip matplotlib pandas openpyxl
 
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
+   - name: Login to Azure
+     uses: azure/login@v1
+     with:
          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
          creds: ${{ secrets.AZURE_CREDENTIALS }}
          resourceGroup: 'Performance-Testing'
 
-      - name: Azure Load Testing
-        uses: azure/load-testing@v1
-        with:
-          loadTestConfigfile: './Configuration/Loadtest.yml'
-          loadTestResource: ${{ github.event.inputs.threadgroup }}
-          resourceGroup: 'Performance-Testing'
-          continue-on-error: true
-          run-name: ${{ github.run_number }} - Load Testing with {{ github.event.inputs.threadgroup }} with ramp up of {{ github.event.inputs.rampup }} seconds
-      env: |
-           [
+
+   - name: 'Azure Load Testing'
+     uses: azure/load-testing@v1
+    with:
+           loadTestConfigfile: './Configuration/Loadtest.yml'
+           loadTestResource: ${{ github.event.inputs.threadgroup }}
+           resourceGroup: 'Performance-Testing'
+           continue-on-error: true
+           run-name: ${{ github.run_number }} - Load Testing with {{ github.event.inputs.threadgroup }} with ramp up of {{ github.event.inputs.rampup }} seconds
+      
+env: |
+      [
           {
           "name": "THREADGROUP",
           "value": ${{ github.event.inputs.threadgroup }}
           },
           {
-           "name": "RAMPUP",
-           "value": ${{ github.event.inputs.rampup }}
-           }
-          ]  
+          "name": "RAMPUP",
+          "value": ${{ github.event.inputs.rampup }}
+          }
+      ]
