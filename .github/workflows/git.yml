@@ -43,9 +43,9 @@ jobs:
         uses: azure/load-testing@v1
         with:
           loadTestConfigfile: r'./Configuration/Load_Testing.yml'
-          loadTestResource: ${{ github.event.inputs.threadgroup }}
+          #loadTestResource: ${{ github.event.inputs.threadgroup }}
           resourceGroup: 'Performance-Testing'
-          continue-on-error: true
+          continue-on-error: false
           run-name: ${{ github.run_number }} - Load Testing with {{ github.event.inputs.threadgroup }} with ramp up of {{ github.event.inputs.rampup }} seconds
           env: |
             [
