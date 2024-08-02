@@ -1,6 +1,6 @@
 name: Load Test
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       threadgroup:
@@ -15,14 +15,16 @@ on:
         type: number
 
 jobs:
-
   loadtest:
     name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout GitHub Actions 
+      - name: Checkout GitHub Actions
         uses: actions/checkout@v2
+
+      - name: List Files in Configuration Directory
+        run: ls -la ./Configuration
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -32,27 +34,20 @@ jobs:
       - name: Install dependencies
         run: pip install --upgrade pip matplotlib pandas openpyxl
 
+      - name: Set up Azure CLI
+        uses: azure/setup-azure-cli@v1
+
       - name: Login to Azure
         run: |
           az login --username ${{ secrets.AZURE_USERNAME }} --password ${{ secrets.AZURE_PASSWORD }}
-        # with:
-        #   auth-type: 'IDENTITY'
-        #   subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        #   #creds: ${{ secrets.AZURE_CREDENTIALS }}
-        #   resourceGroup: 'Performance-Testing'
-            
 
       - name: 'Azure Load Testing'
         uses: azure/load-testing@v1
         with:
-<<<<<<< HEAD
           loadTestConfigfile: './Configuration/Loadtest.yaml'
-=======
-          loadTestConfigfile:'./Configuration/Loadtest.yaml'
->>>>>>> f6e603996406e4450146aa9902dbe03a1826d220
-         #loadTestResource: ${{ github.event.inputs.threadgroup }}
-        resourceGroup: 'Performance-Testing'
-         run-name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
+          loadTestResource: ${{ github.event.inputs.threadgroup }}
+          resourceGroup: 'Performance-Testing'
+          run-name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
         env:
           THREADGROUP: ${{ github.event.inputs.threadgroup }}
           RAMPUP: ${{ github.event.inputs.rampup }}
