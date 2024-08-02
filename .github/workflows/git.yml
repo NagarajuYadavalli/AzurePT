@@ -47,8 +47,8 @@ jobs:
         with:
           loadTestConfigfile:'./Configuration/Loadtest.yaml'
          #loadTestResource: ${{ github.event.inputs.threadgroup }}
-          resourceGroup: 'Performance-Testing'
-          run-name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
+        resourceGroup: 'Performance-Testing'
+         run-name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
         env:
           THREADGROUP: ${{ github.event.inputs.threadgroup }}
           RAMPUP: ${{ github.event.inputs.rampup }}
