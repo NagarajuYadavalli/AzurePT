@@ -39,7 +39,21 @@ jobs:
         run: |
           az login --username ${{ secrets.AZURE_USERNAME }} --password ${{ secrets.AZURE_PASSWORD }}
 
+      - name: Upload Configuration Directory
+        uses: actions/upload-artifact@v3
+        with:
+            name: configuration-directory
+            path: ./Configuration
 
+      - name: Download Configuration Directory
+        uses: actions/download-artifact@v3
+        with:
+              name: configuration-directory 
+
+
+      - name: List Files
+        run: ls -R ./Configuration
+        
       - name: 'Azure Load Testing'
         uses: azure/load-testing@v1
         with:
