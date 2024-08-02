@@ -38,6 +38,8 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           resourceGroup: 'Performance-Testing'
+          run: |
+           az login --username ${{ secrets.AZURE_USERNAME }} --password ${{ secrets.AZURE_PASSWORD }}
 
       - name: 'Azure Load Testing'
         uses: azure/load-testing@v1
