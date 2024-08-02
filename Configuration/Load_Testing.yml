@@ -1,6 +1,0 @@
-version: v0.1
-testId: Chatmessage
-displayName: Assigntask
-testPlan: assignment/JmeterScript/Message.jmx
-properties:
-  userPropertyFile: configuration/ptchat.properties
