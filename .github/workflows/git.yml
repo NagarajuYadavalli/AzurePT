@@ -33,13 +33,14 @@ jobs:
 
       - name: Login to Azure
         uses: azure/login@v1
-        with:
-          auth-type: 'IDENTITY'
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          #creds: ${{ secrets.AZURE_CREDENTIALS }}
-          resourceGroup: 'Performance-Testing'
-          run: |
-           az login --username ${{ secrets.AZURE_USERNAME }} --password ${{ secrets.AZURE_PASSWORD }}
+        run: |
+          az login --username ${{ secrets.AZURE_USERNAME }} --password ${{ secrets.AZURE_PASSWORD }}
+        # with:
+        #   auth-type: 'IDENTITY'
+        #   subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        #   #creds: ${{ secrets.AZURE_CREDENTIALS }}
+        #   resourceGroup: 'Performance-Testing'
+            
 
       - name: 'Azure Load Testing'
         uses: azure/load-testing@v1
