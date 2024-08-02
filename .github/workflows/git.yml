@@ -15,6 +15,7 @@ on:
         type: number
 
 jobs:
+
   loadtest:
     name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
     runs-on: ubuntu-latest
