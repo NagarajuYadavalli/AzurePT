@@ -32,7 +32,6 @@ jobs:
         run: pip install --upgrade pip matplotlib pandas openpyxl
 
       - name: Login to Azure
-        uses: azure/login@v1
         run: |
           az login --username ${{ secrets.AZURE_USERNAME }} --password ${{ secrets.AZURE_PASSWORD }}
         # with:
