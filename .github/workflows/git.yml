@@ -15,11 +15,14 @@ on:
         type: number
 
 jobs:
-  loadtest:
-    name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
-    runs-on: ubuntu-latest
 
-    steps:
+ loadtest:
+   name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
+   runs-on: ubuntu-latest
+#env :
+ #THREADGROUP: ${{github.event.inputs.threadgroup}}
+
+   steps:
       - name: Checkout GitHub Actions 
         uses: actions/checkout@v2
 
@@ -31,12 +34,11 @@ jobs:
       - name: Install dependencies
         run: pip install --upgrade pip matplotlib pandas openpyxl
 
-      - name: Set up Azure CLI
-        uses: azure/setup-azure-cli@v1
-
       - name: Login to Azure
+      
         run: |
           az login --username ${{ secrets.AZURE_USERNAME }} --password ${{ secrets.AZURE_PASSWORD }}
+
 
       - name: 'Azure Load Testing'
         uses: azure/load-testing@v1
@@ -44,7 +46,16 @@ jobs:
           loadTestConfigfile: './Configuration/Loadtest.yml'
           loadTestResource: ${{ github.event.inputs.threadgroup }}
           resourceGroup: 'Performance-Testing'
-          run-name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
-        env:
-          THREADGROUP: ${{ github.event.inputs.threadgroup }}
-          RAMPUP: ${{ github.event.inputs.rampup }}
+          continue-on-error: true
+          run-name: ${{ github.run_number }} - Load Testing with {{ github.event.inputs.threadgroup }} with ramp up of {{ github.event.inputs.rampup }} seconds
+          env: |
+            [
+             {
+             "name": "THREADGROUP",
+             "value": ${{ github.event.inputs.threadgroup }}
+             },
+             {
+            "name": "RAMPUP",
+            "value": ${{ github.event.inputs.rampup }}
+             }
+            ]
