@@ -1,5 +1,5 @@
 version: v0.1
-testId: Message
+testId: Chatmessage
 displayName: Assigntask
 testPlan: /Assignment/JmeterScript/Message.jmx
 properties:
