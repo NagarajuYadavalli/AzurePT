@@ -1,6 +1,6 @@
 name: Load Test
 
-on:
+on: 
   workflow_dispatch:
     inputs:
       threadgroup:
@@ -20,11 +20,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout GitHub Actions
+      - name: Checkout GitHub Actions 
         uses: actions/checkout@v2
-
-      - name: List Files in Configuration Directory
-        run: ls -la ./Configuration
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -44,7 +41,7 @@ jobs:
       - name: 'Azure Load Testing'
         uses: azure/load-testing@v1
         with:
-          loadTestConfigfile: './Configuration/Loadtest.yaml'
+          loadTestConfigfile: './Configuration/Loadtest.yml'
           loadTestResource: ${{ github.event.inputs.threadgroup }}
           resourceGroup: 'Performance-Testing'
           run-name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
