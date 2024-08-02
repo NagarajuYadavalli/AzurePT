@@ -45,10 +45,14 @@ jobs:
       - name: 'Azure Load Testing'
         uses: azure/load-testing@v1
         with:
+<<<<<<< HEAD
           loadTestConfigfile: './Configuration/Loadtest.yaml'
+=======
+          loadTestConfigfile:'./Configuration/Loadtest.yaml'
+>>>>>>> f6e603996406e4450146aa9902dbe03a1826d220
          #loadTestResource: ${{ github.event.inputs.threadgroup }}
-          resourceGroup: 'Performance-Testing'
-          run-name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
+        resourceGroup: 'Performance-Testing'
+         run-name: ${{ github.run_number }} - Load Testing with ${{ github.event.inputs.threadgroup }} users and ramp up of ${{ github.event.inputs.rampup }} seconds
         env:
           THREADGROUP: ${{ github.event.inputs.threadgroup }}
           RAMPUP: ${{ github.event.inputs.rampup }}
