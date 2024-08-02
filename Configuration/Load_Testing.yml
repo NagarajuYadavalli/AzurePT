@@ -3,4 +3,4 @@ testId: Message
 displayName: Assigntask
 testPlan: /Assignment/JmeterScript/Message.jmx
 properties:
-    userPropertyFile: /configuration/ptchat.properties
+    userPropertyFile: ../ptchat.properties
