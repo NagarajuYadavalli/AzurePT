@@ -3,7 +3,3 @@ testname: Message
 testplan: ./Assignment/JmeterScript/Message.jmx
 properties:
     userPropertyFile: ../configuration/ptchat.properties
-
-
-
-
